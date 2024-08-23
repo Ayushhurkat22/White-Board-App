@@ -38,6 +38,27 @@ Welcome to the Whiteboard App project! This application is a dynamic and versati
 - Select the erase tool to remove unwanted elements.
 - Add text annotations for detailed explanations.
 
+### 📦 Installation
+
+1. Clone the Repository
+
+   ```git clone https://github.com/Ayushhurkat22/whiteboard-app.git```
+
+2. Navigate to Project Directory
+
+   ```cd whiteboard-app```
+
+3. Install Dependencies
+
+   ```npm install```
+
+4. Start the Development Server
+
+   ```npm start```
+
+   Open http://localhost:3000 in your browser to view the application.
+
+
 ### 🛠️ Contributing
 
 Contributions are welcome! If you have suggestions or improvements, please fork the repository and submit a pull request.
