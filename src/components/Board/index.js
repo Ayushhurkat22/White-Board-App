@@ -3,7 +3,6 @@ import rough from "roughjs";
 import boardContext from "../../store/board-context";
 import { TOOL_ACTION_TYPES, TOOL_ITEMS } from "../../constants";
 import toolboxContext from "../../store/toolbox-context";
-
 import classes from "./index.module.css";
 
 function Board() {
@@ -37,7 +36,6 @@ function Board() {
     }
 
     document.addEventListener("keydown", handleKeyDown);
-
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
@@ -67,7 +65,12 @@ function Board() {
           context.textBaseline = "top";
           context.font = `${element.size}px Caveat`;
           context.fillStyle = element.stroke;
-          context.fillText(element.text, element.x1, element.y1);
+          // Split text by new lines and render each line
+          const lines = element.text.split("\n");
+          const lineHeight = element.size * 1.2; // Adjust line height based on font size
+          lines.forEach((line, index) => {
+            context.fillText(line, element.x1, element.y1 + index * lineHeight);
+          });
           context.restore();
           break;
         default:
@@ -82,7 +85,7 @@ function Board() {
 
   useEffect(() => {
     const textarea = textAreaRef.current;
-    if (toolActionType === TOOL_ACTION_TYPES.WRITING) {
+    if (toolActionType === TOOL_ACTION_TYPES.WRITING && textarea) {
       setTimeout(() => {
         textarea.focus();
       }, 0);
@@ -101,18 +104,28 @@ function Board() {
     boardMouseUpHandler();
   };
 
+  const lastElement = elements[elements.length - 1];
+  const isTextElementValid =
+    toolActionType === TOOL_ACTION_TYPES.WRITING &&
+    lastElement &&
+    lastElement.type === TOOL_ITEMS.TEXT &&
+    lastElement.x1 !== undefined &&
+    lastElement.y1 !== undefined &&
+    lastElement.size !== undefined &&
+    lastElement.stroke !== undefined;
+
   return (
     <>
-      {toolActionType === TOOL_ACTION_TYPES.WRITING && (
+      {isTextElementValid && (
         <textarea
-          type="text"
           ref={textAreaRef}
           className={classes.textElementBox}
           style={{
-            top: elements[elements.length - 1].y1,
-            left: elements[elements.length - 1].x1,
-            fontSize: `${elements[elements.length - 1]?.size}px`,
-            color: elements[elements.length - 1]?.stroke,
+            top: lastElement.y1,
+            left: lastElement.x1,
+            fontSize: `${lastElement.size}px`,
+            color: lastElement.stroke,
+            whiteSpace: "pre-wrap", 
           }}
           onBlur={(event) => textAreaBlurHandler(event.target.value)}
         />

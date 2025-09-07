@@ -1,17 +1,17 @@
 .textElementBox {
   position: fixed;
-  border: none;
+  border: 1px solid lightblue;
   background: transparent;
-  resize: none;
   outline: none;
-  padding: 0;
+  padding: 2px;
   margin: 0;
   width: auto;
-  height: auto;
-  overflow: hidden;
+  min-width: 50px;
+  min-height: 20px;
   font-size: inherit;
-  font-family: inherit;
+  font-family: "Caveat", cursive;
   color: inherit;
-  line-height: inherit;
-  font-family: "Caveat";
+  line-height: 1.2;
+  overflow: auto; 
+  resize: both;
 }
